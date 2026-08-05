@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">ZipMaster</string>
+    <string name="extract">استخراج</string>
+    <string name="compress">فشرده‌سازی</string>
+    <string name="select_file">انتخاب فایل</string>
+    <string name="select_destination">انتخاب مقصد</string>
+    <string name="password">رمز عبور (اختیاری)</string>
+    <string name="extract_file">استخراج فایل</string>
+    <string name="compress_files">فشرده‌سازی فایل‌ها</string>
+    <string name="file_name">نام فایل خروجی</string>
+    <string name="confirm_password">تکرار رمز عبور</string>
+    <string name="compression_level">سطح فشرده‌سازی</string>
+</resources>
