@@ -45,4 +45,5 @@ dependencies {
     
     implementation 'net.lingala.zip4j:zip4j:2.11.5'
     implementation 'com.github.junrar:junrar:7.5.5'
+    implementation 'androidx.dynamicanimation:dynamicanimation:1.0.0'
 }
