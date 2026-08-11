@@ -26,23 +26,18 @@ class MainActivity : AppCompatActivity() {
 
     private val openArchiveLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
         if (result.resultCode == Activity.RESULT_OK) {
-            result.data?.data?.let { uri ->
-                handleArchiveSelection(uri)
+            val path = result.data?.getStringExtra("selected_path")
+            if (path != null) {
+                handleArchiveSelection(path)
             }
         }
     }
 
     private val createZipLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
         if (result.resultCode == Activity.RESULT_OK) {
-            val uris = mutableListOf<Uri>()
-            result.data?.clipData?.let { clipData ->
-                for (i in 0 until clipData.itemCount) {
-                    uris.add(clipData.getItemAt(i).uri)
-                }
-            } ?: result.data?.data?.let { uris.add(it) }
-            
-            if (uris.isNotEmpty()) {
-                handleCreateZip(uris)
+            val paths = result.data?.getStringArrayExtra("selected_paths")
+            if (paths != null && paths.isNotEmpty()) {
+                handleCreateZip(paths.toList())
             }
         }
     }
@@ -60,20 +55,16 @@ class MainActivity : AppCompatActivity() {
         binding.rvHistory.layoutManager = LinearLayoutManager(this)
         binding.rvHistory.adapter = adapter
 
-        binding.btnOpenArchive.setOnClickListener {
-            val intent = Intent(Intent.ACTION_OPEN_DOCUMENT).apply {
-                addCategory(Intent.CATEGORY_OPENABLE)
-                type = "*/*"
-                putExtra(Intent.EXTRA_MIME_TYPES, arrayOf("application/zip", "application/x-rar-compressed"))
+        binding.cardOpen.setOnClickListener {
+            val intent = Intent(this, com.example.zipmaster.ui.FileExplorerActivity::class.java).apply {
+                putExtra("selection_mode", false)
             }
             openArchiveLauncher.launch(intent)
         }
 
-        binding.btnCreateZip.setOnClickListener {
-            val intent = Intent(Intent.ACTION_OPEN_DOCUMENT).apply {
-                addCategory(Intent.CATEGORY_OPENABLE)
-                type = "*/*"
-                putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true)
+        binding.cardCreate.setOnClickListener {
+            val intent = Intent(this, com.example.zipmaster.ui.FileExplorerActivity::class.java).apply {
+                putExtra("selection_mode", true)
             }
             createZipLauncher.launch(intent)
         }
@@ -132,20 +123,20 @@ class MainActivity : AppCompatActivity() {
         progressDialog?.dismiss()
     }
 
-    private fun handleArchiveSelection(uri: Uri, password: String? = null) {
+    private fun handleArchiveSelection(path: String, password: String? = null) {
         showProgress(getString(R.string.extracting))
-        val tempFile = FileUtil.copyUriToTempFile(this, uri)
-        val destDir = File(getExternalFilesDir(null), "extracted/${System.currentTimeMillis()}")
+        val archiveFile = File(path)
+        val destDir = File(archiveFile.parentFile, "extracted_${archiveFile.nameWithoutExtension}")
         destDir.mkdirs()
 
-        viewModel.extractArchive(tempFile.absolutePath, destDir.absolutePath, password) { success, error ->
+        viewModel.extractArchive(path, destDir.absolutePath, password) { success, error ->
             runOnUiThread {
                 hideProgress()
                 if (success) {
                     Toast.makeText(this, getString(R.string.operation_success), Toast.LENGTH_SHORT).show()
                 } else if (error == "PASSWORD_REQUIRED") {
                     showPasswordDialog { pwd ->
-                        handleArchiveSelection(uri, pwd)
+                        handleArchiveSelection(path, pwd)
                     }
                 } else {
                     Toast.makeText(this, error ?: getString(R.string.operation_failed), Toast.LENGTH_LONG).show()
@@ -154,11 +145,10 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun handleCreateZip(uris: List<Uri>) {
+    private fun handleCreateZip(paths: List<String>) {
         showProgress(getString(R.string.compressing))
-        val files = uris.map { FileUtil.copyUriToTempFile(this, it) }
-        val destFile = File(getExternalFilesDir(null), "compressed/archive_${System.currentTimeMillis()}.zip")
-        destFile.parentFile?.mkdirs()
+        val files = paths.map { File(it) }
+        val destFile = File(files[0].parentFile, "archive_${System.currentTimeMillis()}.zip")
 
         viewModel.createZip(files, destFile.absolutePath) { success, error ->
             runOnUiThread {

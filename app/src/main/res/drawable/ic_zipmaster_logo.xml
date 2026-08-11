@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="200dp"
+    android:height="200dp"
+    android:viewportWidth="200"
+    android:viewportHeight="200">
+    
+    <!-- Background Circle -->
+    <path
+        android:fillColor="#0F62FE"
+        android:pathData="M100,100m-90,0a90,90 0,1 1,180 0a90,90 0,1 1,-180 0" />
+    
+    <!-- Stylized 'Z' with Zipper motif -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M60,60h80v20l-50,50h50v20h-80v-20l50,-50h-50z" />
+        
+    <!-- Zipper Teeth Detail -->
+    <path
+        android:fillColor="#D0E2FF"
+        android:pathData="M95,80h10v5h-10z M95,90h10v5h-10z M95,100h10v5h-10z M95,110h10v5h-10z" />
+</vector>

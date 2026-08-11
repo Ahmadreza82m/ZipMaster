@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="primary">#0F62FE</color>
+    <color name="primary_variant">#0043CE</color>
+    <color name="on_primary">#FFFFFF</color>
+    <color name="secondary">#393939</color>
+    <color name="background">#F4F4F4</color>
+    <color name="surface">#FFFFFF</color>
+    <color name="on_surface">#161616</color>
+    <color name="error">#DA1E28</color>
+    
+    <!-- Accent Colors -->
+    <color name="accent_blue">#D0E2FF</color>
+    <color name="accent_green">#24A148</color>
+    <color name="accent_orange">#FF832B</color>
+</resources>

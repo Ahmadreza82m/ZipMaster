@@ -28,13 +28,24 @@ class HistoryAdapter : ListAdapter<HistoryItem, HistoryAdapter.ViewHolder>(DiffC
         private val tvFileName: TextView = view.findViewById(R.id.tvFileName)
         private val tvDetails: TextView = view.findViewById(R.id.tvDetails)
         private val ivStatus: ImageView = view.findViewById(R.id.ivStatus)
-        private val sdf = SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.getDefault())
+        private val ivIcon: ImageView = view.findViewById(R.id.ivIcon)
+        private val viewIndicator: View = view.findViewById(R.id.viewTypeIndicator)
+        private val sdf = SimpleDateFormat("MMM dd, HH:mm", Locale.getDefault())
 
         fun bind(item: HistoryItem) {
             tvFileName.text = item.fileName
             val type = if (item.operationType == "EXTRACT") "Extracted" else "Compressed"
             tvDetails.text = "$type • ${sdf.format(Date(item.timestamp))}"
             
+            val context = itemView.context
+            if (item.operationType == "EXTRACT") {
+                viewIndicator.setBackgroundColor(context.getColor(R.color.accent_green))
+                ivIcon.setImageResource(android.R.drawable.ic_menu_search)
+            } else {
+                viewIndicator.setBackgroundColor(context.getColor(R.color.primary))
+                ivIcon.setImageResource(android.R.drawable.ic_menu_add)
+            }
+
             ivStatus.setImageResource(
                 if (item.isSuccess) android.R.drawable.presence_online 
                 else android.R.drawable.presence_busy

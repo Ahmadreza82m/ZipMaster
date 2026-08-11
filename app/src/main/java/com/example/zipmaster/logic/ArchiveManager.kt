@@ -53,13 +53,22 @@ class ArchiveManager(private val context: Context) {
     fun extractRar(rarFilePath: String, destPath: String, password: String? = null, listener: ProgressListener) {
         try {
             val rarFile = File(rarFilePath)
+            
+            // Check for multi-part RAR (basic check for part1.rar, .001, etc.)
+            if (rarFilePath.contains("part") && !rarFilePath.contains("part1")) {
+                listener.onError("Please select the first part of the archive.")
+                return
+            }
+
             val archive = Archive(rarFile, password)
             
-            if (archive.isEncrypted) {
-                 if (password == null) {
-                    listener.onError("PASSWORD_REQUIRED")
-                    return
-                }
+            if (archive.isEncrypted && password == null) {
+                listener.onError("PASSWORD_REQUIRED")
+                return
+            }
+
+            if (archive.isMainHeaderMultiVolume) {
+                // Junrar handles multi-volume if parts are in the same folder
             }
 
             var header: FileHeader? = archive.nextFileHeader()
@@ -67,16 +76,16 @@ class ArchiveManager(private val context: Context) {
                 if (!header.isDirectory) {
                     val out = File(destPath, header.fileNameString)
                     out.parentFile?.mkdirs()
-                    val fos = FileOutputStream(out)
-                    archive.extractFile(header, fos)
-                    fos.close()
+                    FileOutputStream(out).use { fos ->
+                        archive.extractFile(header, fos)
+                    }
                 }
                 header = archive.nextFileHeader()
             }
             archive.close()
             listener.onCompleted()
         } catch (e: Exception) {
-            listener.onError(e.message ?: "Unknown error")
+            listener.onError(e.message ?: "Extraction failed")
         }
     }
 

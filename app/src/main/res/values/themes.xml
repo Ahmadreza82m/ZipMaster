@@ -1,7 +1,24 @@
 <resources>
     <style name="Theme.ZipMaster" parent="Theme.Material3.DayNight.NoActionBar">
-        <item name="colorPrimary">#2196F3</item>
-        <item name="colorSecondary">#03DAC6</item>
-        <item name="android:statusBarColor">?attr/colorPrimary</item>
+        <item name="colorPrimary">@color/primary</item>
+        <item name="colorOnPrimary">@color/on_primary</item>
+        <item name="android:windowBackground">@color/background</item>
+        <item name="android:statusBarColor">@color/background</item>
+        <item name="android:windowLightStatusBar">true</item>
+        
+        <!-- Shape Appearance -->
+        <item name="shapeAppearanceSmallComponent">@style/ShapeAppearance.ZipMaster.Small</item>
+        <item name="shapeAppearanceMediumComponent">@style/ShapeAppearance.ZipMaster.Medium</item>
+        <item name="shapeAppearanceLargeComponent">@style/ShapeAppearance.ZipMaster.Large</item>
+    </style>
+
+    <style name="ShapeAppearance.ZipMaster.Small" parent="ShapeAppearance.Material3.SmallComponent">
+        <item name="cornerSize">8dp</item>
+    </style>
+    <style name="ShapeAppearance.ZipMaster.Medium" parent="ShapeAppearance.Material3.MediumComponent">
+        <item name="cornerSize">16dp</item>
+    </style>
+    <style name="ShapeAppearance.ZipMaster.Large" parent="ShapeAppearance.Material3.LargeComponent">
+        <item name="cornerSize">24dp</item>
     </style>
 </resources>
