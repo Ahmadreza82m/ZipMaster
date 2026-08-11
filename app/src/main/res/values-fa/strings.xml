@@ -1,0 +1,28 @@
+<resources>
+    <string name="app_name">زیپ‌مستر</string>
+    <string name="open_archive">باز کردن آرشیو</string>
+    <string name="create_zip">ساخت ZIP</string>
+    <string name="recent_activities">فعالیت‌های اخیر</string>
+    <string name="settings">تنظیمات</string>
+    <string name="extract">استخراج</string>
+    <string name="compress">فشرده‌سازی</string>
+    <string name="cancel">لغو</string>
+    <string name="password">رمز عبور</string>
+    <string name="show_password">نمایش رمز</string>
+    <string name="incorrect_password">رمز عبور اشتباه است</string>
+    <string name="file_not_found">فایل پیدا نشد</string>
+    <string name="insufficient_storage">فضای ذخیره‌سازی ناکافی</string>
+    <string name="unknown_format">فرمت ناشناخته</string>
+    <string name="operation_success">عملیات با موفقیت انجام شد</string>
+    <string name="operation_failed">عملیات با خطا مواجه شد</string>
+    <string name="operation_cancelled">عملیات لغو شد</string>
+    <string name="extracting">در حال استخراج...</string>
+    <string name="compressing">در حال فشرده‌سازی...</string>
+    <string name="history_cleared">تاریخچه پاک شد</string>
+    <string name="language">زبان</string>
+    <string name="version">نسخه</string>
+    <string name="about">درباره برنامه</string>
+    <string name="select_files">انتخاب فایل‌ها</string>
+    <string name="output_name">نام خروجی</string>
+    <string name="destination">محل ذخیره</string>
+</resources>
