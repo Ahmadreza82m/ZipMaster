@@ -50,6 +50,7 @@ class FileAdapter(
             
             if (selectionMode) {
                 holder.cbSelect.visibility = View.VISIBLE
+                holder.cbSelect.setOnCheckedChangeListener(null)
                 holder.cbSelect.isChecked = selectedFiles.contains(file)
                 holder.cbSelect.setOnCheckedChangeListener { _, isChecked ->
                     if (isChecked) selectedFiles.add(file) else selectedFiles.remove(file)
