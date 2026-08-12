@@ -67,7 +67,7 @@ class ArchiveManager(private val context: Context) {
                 return
             }
 
-            if (archive.isMainHeaderMultiVolume) {
+            if (archive.mainHeader.isMultiVolume) {
                 // Junrar handles multi-volume if parts are in the same folder
             }
 
